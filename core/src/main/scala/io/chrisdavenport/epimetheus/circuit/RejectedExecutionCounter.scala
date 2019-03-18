@@ -8,7 +8,7 @@ import shapeless._
 
 
 abstract class RejectedExecutionCounter[F[_]]{
-  def circuitBreaker(c: CircuitBreaker[F], circuitName: String): CircuitBreaker[F]
+  def meteredCircuit(c: CircuitBreaker[F], circuitName: String): CircuitBreaker[F]
 }
 
 object RejectedExecutionCounter {
@@ -36,7 +36,7 @@ object RejectedExecutionCounter {
   private class DefaultRejectedExecutionCounter[F[_]](
     counter: UnlabelledCounter[F, String]
   ) extends RejectedExecutionCounter[F]{
-    def circuitBreaker(c: CircuitBreaker[F], circuitName: String): CircuitBreaker[F] = 
+    override def meteredCircuit(c: CircuitBreaker[F], circuitName: String): CircuitBreaker[F] = 
       c.doOnRejected(counter.label(circuitName).inc)
   }
 
