@@ -13,14 +13,10 @@ abstract class RejectedExecutionCounter[F[_]]{
 
 object RejectedExecutionCounter {
 
-  def single[F[_]: Sync](
-    cr: CollectorRegistry[F],
-    metricName: Name,
-    circuit: CircuitBreaker[F]
-  ): F[CircuitBreaker[F]] = 
-    Counter.noLabels[F](cr, metricName, "Circuit Breaker Rejected Executions.")
-      .map(counter => circuit.doOnRejected(counter.inc))
-
+  /**
+   * Initialization of the Generalized Modifier
+   * which can be applied to multiple circuit breakers.
+   */
   def register[F[_]: Sync](
     cr: CollectorRegistry[F],
     metricName: Name = Name("circuit_rejected_execution_total")
@@ -39,5 +35,17 @@ object RejectedExecutionCounter {
     override def meteredCircuit(c: CircuitBreaker[F], circuitName: String): CircuitBreaker[F] = 
       c.doOnRejected(counter.label(circuitName).inc)
   }
+
+
+  /**
+   * Single Metered Circuit
+   */
+  def meteredCircuit[F[_]: Sync](
+    cr: CollectorRegistry[F],
+    metricName: Name,
+    circuit: CircuitBreaker[F]
+  ): F[CircuitBreaker[F]] = 
+    Counter.noLabels[F](cr, metricName, "Circuit Breaker Rejected Executions.")
+      .map(counter => circuit.doOnRejected(counter.inc))
 
 }
