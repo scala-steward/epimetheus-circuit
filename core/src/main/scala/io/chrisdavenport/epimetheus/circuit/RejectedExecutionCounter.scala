@@ -25,7 +25,7 @@ object RejectedExecutionCounter {
       cr,
       metricName,
       "Circuit Breaker Rejected Executions.",
-      Sized(Name("circuit_name")),
+      Sized(Label("circuit_name")),
       {s: String => Sized(s)}
     ).map(new DefaultRejectedExecutionCounter(_))
 
