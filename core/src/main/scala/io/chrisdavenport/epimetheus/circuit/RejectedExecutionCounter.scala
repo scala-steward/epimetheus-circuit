@@ -1,7 +1,7 @@
 package io.chrisdavenport.epimetheus.circuit
 
 import cats.effect._
-import cats.implicits._
+import cats.syntax.all._
 import io.chrisdavenport.epimetheus._
 import io.chrisdavenport.circuit._
 import shapeless._
