@@ -68,7 +68,7 @@ val circuitV = "0.4.3"
 
 val specs2V = "4.8.3"
 
-val kindProjectorV = "0.11.2"
+val kindProjectorV = "0.11.3"
 val betterMonadicForV = "0.3.1"
 
 // General Settings
